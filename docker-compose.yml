@@ -1,0 +1,20 @@
+version: "3"
+services:
+  triton:
+    image: nvcr.io/nvidia/tritonserver:23.12-py3
+    volumes:
+      - ./models:/models
+    command: tritonserver --model-repository=/models
+    ports:
+      - "8000:8000"   # HTTP
+      - "8001:8001"   # gRPC
+      - "8002:8002"   # Metrics
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow
+    environment:
+      - MLFLOW_TRACKING_URI=http://0.0.0.0:5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/mlflow
