@@ -18,8 +18,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFormLayout,
     QGroupBox, QHBoxLayout, QLabel, QLineEdit,
     QMainWindow, QMenuBar, QProgressBar, QPushButton,
-    QSizePolicy, QStatusBar, QTabWidget, QVBoxLayout,
-    QWidget)
+    QSizePolicy, QStackedWidget, QStatusBar, QTabWidget,
+    QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -221,6 +221,65 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.trainTab, "")
         self.inferTab = QWidget()
         self.inferTab.setObjectName(u"inferTab")
+        self.inferLayout = QVBoxLayout(self.inferTab)
+        self.inferLayout.setObjectName(u"inferLayout")
+        self.comboInferModel = QComboBox(self.inferTab)
+        self.comboInferModel.addItem("")
+        self.comboInferModel.addItem("")
+        self.comboInferModel.addItem("")
+        self.comboInferModel.setObjectName(u"comboInferModel")
+        self.comboInferModel.setEditable(False)
+
+        self.inferLayout.addWidget(self.comboInferModel)
+
+        self.stackedInferOutput = QStackedWidget(self.inferTab)
+        self.stackedInferOutput.setObjectName(u"stackedInferOutput")
+        self.pageSegmentation = QWidget()
+        self.pageSegmentation.setObjectName(u"pageSegmentation")
+        self.segLayout = QVBoxLayout(self.pageSegmentation)
+        self.segLayout.setObjectName(u"segLayout")
+        self.btnCargarImagen = QPushButton(self.pageSegmentation)
+        self.btnCargarImagen.setObjectName(u"btnCargarImagen")
+
+        self.segLayout.addWidget(self.btnCargarImagen)
+
+        self.imgResultado = QLabel(self.pageSegmentation)
+        self.imgResultado.setObjectName(u"imgResultado")
+        self.imgResultado.setAlignment(Qt.AlignCenter)
+
+        self.segLayout.addWidget(self.imgResultado)
+
+        self.stackedInferOutput.addWidget(self.pageSegmentation)
+        self.pageClassification = QWidget()
+        self.pageClassification.setObjectName(u"pageClassification")
+        self.classLayout = QVBoxLayout(self.pageClassification)
+        self.classLayout.setObjectName(u"classLayout")
+        self.lblResultadoClase = QLabel(self.pageClassification)
+        self.lblResultadoClase.setObjectName(u"lblResultadoClase")
+        self.lblResultadoClase.setAlignment(Qt.AlignCenter)
+
+        self.classLayout.addWidget(self.lblResultadoClase)
+
+        self.stackedInferOutput.addWidget(self.pageClassification)
+        self.pageText = QWidget()
+        self.pageText.setObjectName(u"pageText")
+        self.textLayout = QVBoxLayout(self.pageText)
+        self.textLayout.setObjectName(u"textLayout")
+        self.inputPrompt = QLineEdit(self.pageText)
+        self.inputPrompt.setObjectName(u"inputPrompt")
+
+        self.textLayout.addWidget(self.inputPrompt)
+
+        self.outputTexto = QTextEdit(self.pageText)
+        self.outputTexto.setObjectName(u"outputTexto")
+        self.outputTexto.setReadOnly(True)
+
+        self.textLayout.addWidget(self.outputTexto)
+
+        self.stackedInferOutput.addWidget(self.pageText)
+
+        self.inferLayout.addWidget(self.stackedInferOutput)
+
         self.tabWidget.addTab(self.inferTab, "")
         self.metricsTab = QWidget()
         self.metricsTab.setObjectName(u"metricsTab")
@@ -283,7 +342,15 @@ class Ui_MainWindow(object):
         self.btnEntrenar.setText(QCoreApplication.translate("MainWindow", u"Entrenar", None))
         self.labelEstado.setText(QCoreApplication.translate("MainWindow", u"Estado: Idle", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.trainTab), QCoreApplication.translate("MainWindow", u"Entrenamiento", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.inferTab), QCoreApplication.translate("MainWindow", u"Inferencia", None))
+        self.comboInferModel.setItemText(0, QCoreApplication.translate("MainWindow", u"Segmentaci\u00f3n", None))
+        self.comboInferModel.setItemText(1, QCoreApplication.translate("MainWindow", u"Clasificaci\u00f3n", None))
+        self.comboInferModel.setItemText(2, QCoreApplication.translate("MainWindow", u"Texto", None))
+
+        self.btnCargarImagen.setText(QCoreApplication.translate("MainWindow", u"Cargar imagen", None))
+        self.imgResultado.setText(QCoreApplication.translate("MainWindow", u"Resultado de segmentaci\u00f3n", None))
+        self.lblResultadoClase.setText(QCoreApplication.translate("MainWindow", u"Resultado de clasificaci\u00f3n", None))
+        self.inputPrompt.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Introduce tu prompt y pulsa Enter", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.inferTab), QCoreApplication.translate("MainWindow", u"Page", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.metricsTab), QCoreApplication.translate("MainWindow", u"M\u00e9tricas", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.deployTab), QCoreApplication.translate("MainWindow", u"Despliegue", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.configTab), QCoreApplication.translate("MainWindow", u"Configuraci\u00f3n", None))

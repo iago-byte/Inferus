@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="trainTab">
        <attribute name="title">
@@ -243,154 +243,176 @@
           <item>
            <widget class="QProgressBar" name="progressTraining"/>
           </item>
-            <item>
-            <widget class="QWidget" name="Graph">
-            <layout class="QVBoxLayout" name="graphLayout"/>
-            </widget>
-            </item>
+          <item>
+           <layout class="QVBoxLayout" name="graphLayout"/>
+          </item>
          </layout>
         </item>
        </layout>
       </widget>
       <widget class="QWidget" name="inferTab">
-        <layout class="QVBoxLayout" name="inferLayout">
+       <attribute name="title">
+        <string/>
+       </attribute>
+       <layout class="QVBoxLayout" name="inferLayout">
         <item>
-        <widget class="QComboBox" name="comboInferModel">
-        <property name="editable"><bool>false</bool></property>
-        <item><property name="text"><string>Segmentación</string></property></item>
-        <item><property name="text"><string>Clasificación</string></property></item>
-        <item><property name="text"><string>Texto</string></property></item>
-        </widget>
+         <widget class="QComboBox" name="comboInferModel">
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <item>
+           <property name="text">
+            <string>Segmentación</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Clasificación</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Texto</string>
+           </property>
+          </item>
+         </widget>
         </item>
         <item>
-        <widget class="QStackedWidget" name="stackedInferOutput">
-        <!-- Página de segmentación -->
-        <widget class="QWidget" name="pageSegmentation">
-            <layout class="QVBoxLayout" name="segLayout">
+         <widget class="QStackedWidget" name="stackedInferOutput">
+          <widget class="QWidget" name="pageSegmentation">
+           <layout class="QVBoxLayout" name="segLayout">
             <item>
-            <widget class="QPushButton" name="btnCargarImagen">
-            <property name="text"><string>Cargar imagen</string></property>
-            </widget>
+             <widget class="QPushButton" name="btnCargarImagen">
+              <property name="text">
+               <string>Cargar imagen</string>
+              </property>
+             </widget>
             </item>
             <item>
-            <widget class="QLabel" name="imgResultado">
-            <property name="text"><string>Resultado de segmentación</string></property>
-            <property name="alignment"><set>Qt::AlignCenter</set></property>
-            </widget>
+             <widget class="QLabel" name="imgResultado">
+              <property name="text">
+               <string>Resultado de segmentación</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+             </widget>
             </item>
-            </layout>
-        </widget>
-        <!-- Página de clasificación -->
-        <widget class="QWidget" name="pageClassification">
-            <layout class="QVBoxLayout" name="classLayout">
+           </layout>
+          </widget>
+          <widget class="QWidget" name="pageClassification">
+           <layout class="QVBoxLayout" name="classLayout">
             <item>
-            <widget class="QLabel" name="lblResultadoClase">
-            <property name="text"><string>Resultado de clasificación</string></property>
-            <property name="alignment"><set>Qt::AlignCenter</set></property>
-            </widget>
+             <widget class="QLabel" name="lblResultadoClase">
+              <property name="text">
+               <string>Resultado de clasificación</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+             </widget>
             </item>
-            </layout>
-        </widget>
-        <!-- Página de texto -->
-        <widget class="QWidget" name="pageText">
-            <layout class="QVBoxLayout" name="textLayout">
+           </layout>
+          </widget>
+          <widget class="QWidget" name="pageText">
+           <layout class="QVBoxLayout" name="textLayout">
             <item>
-            <widget class="QLineEdit" name="inputPrompt">
-            <property name="placeholderText"><string>Introduce tu prompt y pulsa Enter</string></property>
-            </widget>
+             <widget class="QLineEdit" name="inputPrompt">
+              <property name="placeholderText">
+               <string>Introduce tu prompt y pulsa Enter</string>
+              </property>
+             </widget>
             </item>
             <item>
-            <widget class="QTextEdit" name="outputTexto">
-            <property name="readOnly"><bool>true</bool></property>
-            </widget>
+             <widget class="QTextEdit" name="outputTexto">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
-            </layout>
-        </widget>
-        </widget>
+           </layout>
+          </widget>
+         </widget>
         </item>
-        </layout>
+       </layout>
       </widget>
-    <widget class="QWidget" name="metricsTab">
-    <attribute name="title">
-    <string>Métricas</string>
-    </attribute>
-    <layout class="QVBoxLayout" name="layoutMetricsTab">
-    <item>
-    <layout class="QHBoxLayout" name="topControls">
+      <widget class="QWidget" name="metricsTab">
+       <attribute name="title">
+        <string>Métricas</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="layoutMetricsTab">
         <item>
-        <widget class="QLabel" name="labelExperimento">
-        <property name="text">
-        <string>Experimento:</string>
-        </property>
-        </widget>
-        </item>
-        <item>
-        <widget class="QComboBox" name="comboExperimento"/>
-        </item>
-        <item>
-        <widget class="QPushButton" name="btnCargarMetricas">
-        <property name="text">
-        <string>Cargar métricas</string>
-        </property>
-        </widget>
-        </item>
-    </layout>
-    </item>
-
-    <item>
-    <layout class="QHBoxLayout" name="middleControls">
-        <item>
-        <layout class="QVBoxLayout" name="runControls">
-        <item>
-        <widget class="QLabel" name="labelRuns">
+         <layout class="QHBoxLayout" name="topControls">
+          <item>
+           <widget class="QLabel" name="labelExperimento">
             <property name="text">
-            <string>Runs disponibles:</string>
+             <string>Experimento:</string>
             </property>
-        </widget>
-        </item>
-        <item>
-        <widget class="QListWidget" name="listRuns"/>
-        </item>
-        </layout>
-        </item>
-        <item>
-        <layout class="QVBoxLayout" name="metricControls">
-        <item>
-        <widget class="QLabel" name="labelMetricas">
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboExperimento"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnCargarMetricas">
             <property name="text">
-            <string>Métricas:</string>
+             <string>Cargar métricas</string>
             </property>
-        </widget>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-        <widget class="QListWidget" name="listMetricas">
-            <property name="selectionMode">
-            <enum>QAbstractItemView::MultiSelection</enum>
-            </property>
-        </widget>
+         <layout class="QHBoxLayout" name="middleControls">
+          <item>
+           <layout class="QVBoxLayout" name="runControls">
+            <item>
+             <widget class="QLabel" name="labelRuns">
+              <property name="text">
+               <string>Runs disponibles:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QListWidget" name="listRuns"/>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="metricControls">
+            <item>
+             <widget class="QLabel" name="labelMetricas">
+              <property name="text">
+               <string>Métricas:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QListWidget" name="listMetricas">
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SelectionMode::MultiSelection</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </item>
-        </layout>
+        <item>
+         <widget class="QWidget" name="metricGraphContainer" native="true"/>
         </item>
-    </layout>
-    </item>
-
-    <item>
-    <widget class="QWidget" name="metricGraphContainer" native="true"/>
-    </item>
-
-    <item>
-    <widget class="QTableWidget" name="tableResumen"/>
-    </item>
-
-    <item>
-    <widget class="QPushButton" name="btnExportarResumen">
-        <property name="text">
-        <string>Exportar CSV</string>
-        </property>
-    </widget>
-    </item>
-    </layout>
-    </widget>
+        <item>
+         <widget class="QTableWidget" name="tableResumen"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnExportarResumen">
+          <property name="text">
+           <string>Exportar CSV</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="deployTab">
        <attribute name="title">
         <string>Despliegue</string>
