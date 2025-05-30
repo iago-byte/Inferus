@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1000</width>
+    <height>613</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Plataforma MLOps - Cliente</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="trainTab">
+       <attribute name="title">
+        <string>Entrenamiento</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="trainLayout">
+        <item>
+         <layout class="QVBoxLayout" name="leftLayout">
+          <item>
+           <widget class="QGroupBox" name="groupBasic">
+            <property name="title">
+             <string>Configuración básica</string>
+            </property>
+            <layout class="QFormLayout" name="formBasic">
+             <item row="0" column="0">
+              <widget class="QLabel" name="model">
+               <property name="text">
+                <string>Tipo de modelo</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QComboBox" name="comboTipoModelo">
+               <item>
+                <property name="text">
+                 <string>Ligero</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Equilibrado</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Robusto</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="classes">
+               <property name="text">
+                <string>Número de clases</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="lineNumClases"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="dataset">
+               <property name="text">
+                <string>Ruta del dataset</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="lineDataset"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupParams">
+            <property name="title">
+             <string>Parámetros generales</string>
+            </property>
+            <layout class="QFormLayout" name="formParams">
+             <item row="0" column="0">
+              <widget class="QLabel" name="Batch_size">
+               <property name="text">
+                <string>Batch size</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="lineBatch"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="Epochs">
+               <property name="text">
+                <string>Épocas</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="lineEpochs"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="toggleAdvanced">
+            <property name="text">
+             <string>Mostrar configuración avanzada</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupAdvanced">
+            <property name="title">
+             <string>Configuración avanzada</string>
+            </property>
+            <layout class="QFormLayout" name="formAdvanced">
+             <item row="0" column="0">
+              <widget class="QLabel" name="backbone">
+               <property name="text">
+                <string>Backbone específico</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QComboBox" name="comboBackbone">
+               <item>
+                <property name="text">
+                 <string>resnet18</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>resnet34</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>efficientnet-b0</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="Optimizador">
+               <property name="text">
+                <string>Optimizador</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QComboBox" name="comboOptimizer">
+               <item>
+                <property name="text">
+                 <string>Adam</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>SGD</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="learning">
+               <property name="text">
+                <string>Learning Rate</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="lineLR"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="tile_size">
+               <property name="text">
+                <string>Tile size</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="lineTile"/>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="Stride">
+               <property name="text">
+                <string>Stride</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QLineEdit" name="lineStride"/>
+             </item>
+             <item row="5" column="0" colspan="2">
+              <widget class="QCheckBox" name="checkTileInfer">
+               <property name="text">
+                <string>Inferencia con tiles</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout">
+            <item>
+             <widget class="QPushButton" name="btnRecomendado">
+              <property name="text">
+               <string>Config. recomendada</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btnEntrenar">
+              <property name="text">
+               <string>Entrenar</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="monitorLayout">
+          <item>
+           <widget class="QLabel" name="labelEstado">
+            <property name="text">
+             <string>Estado: Idle</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QProgressBar" name="progressTraining"/>
+          </item>
+            <item>
+            <widget class="QWidget" name="Graph">
+            <layout class="QVBoxLayout" name="graphLayout"/>
+            </widget>
+            </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="inferTab">
+       <attribute name="title">
+        <string>Inferencia</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="metricsTab">
+       <attribute name="title">
+        <string>Métricas</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="deployTab">
+       <attribute name="title">
+        <string>Despliegue</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="configTab">
+       <attribute name="title">
+        <string>Configuración</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1000</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
