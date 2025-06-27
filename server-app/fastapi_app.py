@@ -1,98 +1,75 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks
 from pydantic import BaseModel
-import torch
-from model_handler import create_model_handler
-from task_worker import submit, status
+from service import ModelService, load_model, unload_model
+from task_worker import status, shutdown
 
 app = FastAPI(title="Inferus API")
-handlers = {}  # model_name -> handler instance
+service = ModelService()
 
 class TrainRequest(BaseModel):
     name: str
     model_type: str
-    config: dict
+    config: dict  # hiperparámetros, MLflow + export settings
+
+class ExportRequest(BaseModel):
+    name: str
+    output_path: str
+    # Opcionales para Triton
+    # backend: str  # "onnx" o "tensorrt"
+    # triton_params: dict
 
 class DeployRequest(BaseModel):
     name: str
     model_path: str
 
-class ExportRequest(BaseModel):
-    name: str
-    output_path: str
-
-# ---------------- Background Task Functions ----------------
-def _train_task(req: TrainRequest) -> dict:
-    handler = create_model_handler(req.model_type, req.config)
-    dummy = [(torch.randn(1, 3, 224, 224), torch.zeros(1, 224, 224, dtype=torch.long))]
-    handler.train(dummy)
-    handlers[req.name] = handler
-    return {"status": "trained", "name": req.name}
-
-def _export_task(req: ExportRequest) -> dict:
-    handler = handlers.get(req.name)
-    if handler is None:
-        raise RuntimeError("Model not found")
-    handler.export_for_triton(req.output_path)
-    return {"status": "exported", "path": req.output_path}
-
-def _deploy_task(req: DeployRequest) -> dict:
-    handler = handlers.get(req.name)
-    if handler is None:
-        raise RuntimeError("Model not found")
-    handler.load(req.model_path)
-    return {"status": "deployed", "name": req.name}
-
-def preprocess_image(data: bytes) -> torch.Tensor:
-    from PIL import Image
-    import io
-    from torchvision import transforms
-    image = Image.open(io.BytesIO(data)).convert("RGB")
-    transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-    ])
-    return transform(image).unsqueeze(0)
-
-def _infer_task(name: str, data: bytes) -> dict:
-    handler = handlers.get(name)
-    if handler is None:
-        raise RuntimeError("Model not found")
-    tensor = preprocess_image(data)
-    preds = handler.predict(tensor)
-    return {"predictions": preds.argmax(dim=1).tolist()}
-
-# ---------------- API Endpoints ----------------
 @app.post("/train")
 async def train(req: TrainRequest):
-    task_id = submit(_train_task, req)
+    if service.exists(req.name):
+        raise HTTPException(status_code=400, detail="Model name already registered")
+    task_id = service.train(req.name, req.model_type, req.config)
     return {"task_id": task_id, "status": "queued"}
 
 @app.post("/export")
 async def export_model(req: ExportRequest):
-    if req.name not in handlers:
+    if not service.exists(req.name):
         raise HTTPException(status_code=404, detail="Model not found")
-    task_id = submit(_export_task, req)
+    task_id = service.export(req.name, req.output_path)
     return {"task_id": task_id, "status": "queued"}
 
 @app.post("/deploy")
 async def deploy(req: DeployRequest):
-    if req.name not in handlers:
+    if not service.exists(req.name):
         raise HTTPException(status_code=404, detail="Model not found")
-    task_id = submit(_deploy_task, req)
+    # Cargamos el handler interno y registramos con Triton
+    task_id = service.deploy(req.name, req.model_path)
+    # Tras completar export, invocamos a Triton
+    # Si usas modo explicit, carga manualmente
+    load_model(req.name)
     return {"task_id": task_id, "status": "queued"}
+
+@app.post("/unload/{name}")
+async def unload(name: str):
+    if not service.exists(name):
+        raise HTTPException(status_code=404, detail="Model not found")
+    unload_model(name)
+    return {"status": "unloaded", "name": name}
 
 @app.post("/infer")
 async def infer(name: str, image: UploadFile = File(...)):
-    if name not in handlers:
+    if not service.exists(name):
         raise HTTPException(status_code=404, detail="Model not found")
     data = await image.read()
-    task_id = submit(_infer_task, name, data)
+    task_id = service.infer(name, data)
     return {"task_id": task_id, "status": "queued"}
 
 @app.get("/tasks/{task_id}")
-async def get_status(task_id: str):
+def get_status(task_id: str):
     return status(task_id)
 
 @app.get("/models")
 def list_models():
-    return {"available_models": list(handlers.keys())}
+    return {"available_models": service.list()}
+
+@app.on_event("shutdown")
+def on_shutdown():
+    shutdown()
